@@ -38,7 +38,7 @@ public class WhatsappRepository {
         }
         else{
 
-            Group group = new Group("Group"+idx,users.size());
+            Group group = new Group("Group "+idx,users.size());
             idx++;
             groupMap.put(group,users);
             return group;      
@@ -63,6 +63,7 @@ public class WhatsappRepository {
        }
 
        List<User> users = groupMap.get(group);
+
        if(!users.contains(sender)){
         throw new Exception("You are not allowed to send message");
        }
@@ -84,7 +85,7 @@ public class WhatsappRepository {
             throw new Exception("User not found");
         }
 
-        if(groupMap.get(group).get(1) != approver){
+        if(groupMap.get(group).get(1).getMobile().equals(approver.getMobile())){
            throw new Exception("Approver does not have rights");
         }
 
@@ -99,7 +100,24 @@ public class WhatsappRepository {
     }
 
     public int removeUser(User user) throws Exception{
+        boolean flag = false;
+        Group group1 = null;
+        for(Group group: groupMap.keySet()){
+           if( groupMap.get(group).contains(user)){
+            flag = true;
+            group1 = group;
+            break;
+           }
+        }
+        if(!flag){
+            throw new Exception("User not found");
+        }
+        if(groupMap.get(group1).get(0)==user){
+            throw new Exception("Cannot remove admin");
+        }
+        groupMap.get(group1).remove(user);
         return 100;
+
 
     }
     public String findMessage(Date start, Date end, int K) throws Exception{
