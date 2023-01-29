@@ -53,7 +53,7 @@ public class WhatsappRepository {
            message.setTimestamp(new Date());
            messageMap.put(id,message);
            id++;
-           return id;
+           return message.getId();
 
     }
 
@@ -82,7 +82,7 @@ public class WhatsappRepository {
     public String changeAdmin(User approver, User user, Group group) throws Exception{
 
         if(!groupMap.containsKey(group)){
-            throw new Exception("User not found");
+            throw new Exception("Group does not exist");
         }
 
         if(groupMap.get(group).get(1).getMobile().equals(approver.getMobile())){
