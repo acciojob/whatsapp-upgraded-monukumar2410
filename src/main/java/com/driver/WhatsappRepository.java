@@ -4,11 +4,14 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import org.springframework.stereotype.Repository;
+
+@Repository
 public class WhatsappRepository {
     
     private HashMap<String,User> userMap = new HashMap<>();
     private HashMap<Integer,Message> messageMap  = new HashMap<>();
-    private HashMap<User,List<Message>> userMessageMap = new HashMap<>();
+   // private HashMap<User,List<Message>> userMessageMap = new HashMap<>();
     private HashMap<Group,List<User>> groupMap = new HashMap<>();
     private HashMap<Group,List<Message>> groupMessageMap = new HashMap<>();
 
@@ -93,7 +96,7 @@ public class WhatsappRepository {
 
         users.add(0, user);
 
-        return "SUCESS";
+        return "SUCCESS";
     }
 
     public int removeUser(User user) throws Exception{
