@@ -1,5 +1,6 @@
 package com.driver;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -33,6 +34,7 @@ public class WhatsappRepository {
         if(users.size()==2){
           Group group = new Group(users.get(1).getName(),2);
           groupMap.put(group,users);
+          groupMessageMap.put(group,new ArrayList<>());
           return group;
           
         }
@@ -41,6 +43,7 @@ public class WhatsappRepository {
             Group group = new Group("Group "+idx,users.size());
             idx++;
             groupMap.put(group,users);
+            groupMessageMap.put(group,new ArrayList<>());
             return group;      
         }
         
@@ -112,7 +115,7 @@ public class WhatsappRepository {
         if(!flag){
             throw new Exception("User not found");
         }
-        if(groupMap.get(group1).get(0)==user){
+        if(groupMap.get(group1).get(0).equals(user)){
             throw new Exception("Cannot remove admin");
         }
         groupMap.get(group1).remove(user);
