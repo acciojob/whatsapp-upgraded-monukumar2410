@@ -119,7 +119,8 @@ public class WhatsappRepository {
             throw new Exception("Cannot remove admin");
         }
         groupMap.get(group1).remove(user);
-        return 100;
+        
+        return 9;
 
 
     }
