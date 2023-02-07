@@ -12,7 +12,7 @@ public class WhatsappRepository {
     
     private HashMap<String,User> userMap = new HashMap<>();
     private HashMap<Integer,Message> messageMap  = new HashMap<>();
-   // private HashMap<User,List<Message>> userMessageMap = new HashMap<>();
+    private HashMap<User,List<Message>> userMessageMap = new HashMap<>();
     private HashMap<Group,List<User>> groupMap = new HashMap<>();
     private HashMap<Group,List<Message>> groupMessageMap = new HashMap<>();
 
@@ -25,6 +25,7 @@ public class WhatsappRepository {
         }
          User user = new User(name,mobile);
          userMap.put(mobile,user);
+         userMessageMap.put(user, new ArrayList<>());
          return "SUCCESS";
          
 
@@ -72,8 +73,12 @@ public class WhatsappRepository {
        }
 
        messageMap.put(message.getId(),message);
+       List<Message> msgs1 = userMessageMap.get(sender);
+       msgs1.add(message);
        List<Message> msgs = groupMessageMap.get(group);
        msgs.add(message);
+
+       messageMap.put(message.getId(),message);
 
        return msgs.size();
        
@@ -119,8 +124,27 @@ public class WhatsappRepository {
             throw new Exception("Cannot remove admin");
         }
         groupMap.get(group1).remove(user);
-        
-        return 9;
+        userMap.remove(user.getMobile());
+
+        List<Message> msgs = userMessageMap.get(user);
+        userMessageMap.remove(user);
+        for(Message msg:msgs){
+            if(groupMessageMap.get(group1).contains(msg)){
+                groupMessageMap.get(group1).remove(msg);
+            }
+            if(messageMap.containsKey(msg.getId()))
+            messageMap.remove(msg.getId());
+        }
+
+        int noOfUSers=groupMap.get(group1).size();
+        int noOfMsgs=groupMessageMap.get(group1).size();
+        int overallMsgs=messageMap.size();
+
+        return noOfUSers + noOfMsgs + overallMsgs;
+    
+
+
+
 
 
     }
