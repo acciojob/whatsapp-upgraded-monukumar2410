@@ -73,8 +73,16 @@ public class WhatsappRepository {
        }
 
        messageMap.put(message.getId(),message);
-       List<Message> msgs1 = userMessageMap.get(sender);
-       msgs1.add(message);
+    //    List<Message> msgs1 = userMessageMap.get(sender);
+    //    msgs1.add(message);
+       if(userMessageMap.containsKey(sender)){
+        userMessageMap.get(sender).add(message);
+       }
+       else{
+        List<Message> list = new ArrayList<>();
+        list.add(message);
+        userMessageMap.put(sender,list);
+       }
        List<Message> msgs = groupMessageMap.get(group);
        msgs.add(message);
 
